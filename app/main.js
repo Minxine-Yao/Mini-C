@@ -14,14 +14,12 @@ function createWindow() {
 
     // 加载应用内的index.html
     win.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
+        pathname: path.join(__dirname, '/src/index/index.html'),
         protocol: 'file:',
         slashes: true
     }));
 
-    // 打开开发者工具
-    win.webContents.openDevTools();
-
+    // win.webContents.openDevTools();
     win.on('closed', () => {
         win = null;
     })

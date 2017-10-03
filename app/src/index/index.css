@@ -1,0 +1,27 @@
+#main-container{
+    display: inline-block;
+}
+html {
+    background-color: rgb(29, 31, 33);
+    color: #cccccc;
+    text-align: center;
+    user-select: none;
+    /*使main-container垂直居中*/
+    min-height: 100vh;
+    display: -webkit-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+ul {padding-left: 20px;}
+
+a {
+    color: rgb(37, 103, 208);
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+    margin-top: 10px;
+}
