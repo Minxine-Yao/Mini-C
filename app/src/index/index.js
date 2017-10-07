@@ -36,6 +36,11 @@ function openFile(fileInfo) {
         var pageFrame = document.getElementById("page-"+navBar.id.substr(4));
         navBar.parentNode.removeChild(navBar);
         pageFrame.parentNode.removeChild(pageFrame);
+        if(pageContainer.firstChild.frameBorder!==0) {
+            // 关闭了所有页面，显示初始页面
+            pageContainer.style.display = "none";
+            document.getElementById("opened-files").classList.remove("shadow");
+        }
     };
     div.appendChild(a);
     nav.appendChild(div);
@@ -43,9 +48,14 @@ function openFile(fileInfo) {
     var iframe = document.createElement("iframe");
     iframe.src = "../editor/editor.html";
     iframe.frameBorder = 0;
-    iframe.id = "page-" + OFID++;
+    iframe.id = "page-" + OFID;
     // iframe.style.zIndex = 50 + OFID++;
     pageContainer.appendChild(iframe);
+    if(OFID === 0) {
+        // 打开第一个页面
+        pageContainer.style.display = "block";
+        document.getElementById("opened-files").classList.add("shadow");
+    }
 }
 
 function createFile() {

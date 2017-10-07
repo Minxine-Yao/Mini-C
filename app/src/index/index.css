@@ -6,9 +6,9 @@
     left: 0;
     width: 100%;
     height: 35px;
-    background-color: #252525;
 }
-#opened-files .shadow{
+#opened-files.shadow{
+    background-color: #252525;
     box-shadow: 0 0px 2px 2px #030303;
 }
 #opened-files .opened-file{
@@ -23,31 +23,37 @@
     background-color: #2d2d2d;
     color: #969696;
 }
+#opened-files .opened-file:hover {
+    cursor: pointer;
+}
 #opened-files .opened-file.opened-file-focus{
     /* to-do: 和当前编辑器主题背景色相同 */
     background-color: #1f1f1f;
 }
 .opened-file-btn{
-    display: hidden;
+    /* display: hidden; */
+    opacity: 0;
     line-height: 35px;
     vertical-align: middle;
     margin-left: 8px;
     font-size: 15px;
-    color: white;
+    font-weight: bold;
+    color: #969696;
 }
-.opened-file-btn{
-    display: inline;
+.opened-file:hover .opened-file-btn{
+    opacity: 1;
+    /* display: inline; */
+    color: white;
 }
 
 /* 文档编辑区 */
 #page-container{
-    display: block;
+    display: none;
     position: fixed;
-    top: 0;
+    top: 35px;
     left: 0;
     width: 100%;
     height: 100vh;
-    padding-top: 35px;
 }
 #page-container iframe{
     width: 100%;
@@ -75,6 +81,7 @@ ul {padding-left: 20px;}
 a {
     color: rgb(37, 103, 208);
     text-decoration: none;
+    cursor: pointer;
 }
 
 li {
