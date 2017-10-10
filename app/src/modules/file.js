@@ -4,7 +4,20 @@ const { dialog } = require('electron').remote;
 
 let openedFileWindows = []; //保存所有已打开文件窗口的引用
 
-function createFile() { }
+function createFile() {
+    var path = dialog.showSaveDialog({
+        "title": "创建新文件",
+        "filters":[{ name: 'Mini-C File', extensions: ['c'] }]
+    });
+    if(path === undefined) {
+        dialog.showErrorBox("Error", "创建新文件失败");
+    } else {
+        editWindow.openFile({
+            "path": path,
+            "content": ""
+        });
+    }
+}
 
 function openFile() {
     // 从文件资源管理器中打开文件
@@ -17,13 +30,13 @@ function openFile() {
         ]
     });
     if(filePaths === undefined) {
-        dialog.showErrorBox("打开文件错误", "获取文件路径错误")
+        dialog.showErrorBox("Error", "打开文件错误")
     } else {
         filePath = filePaths[0]; //暂时只实现打开一个文件的功能
         fs.readFile(filePath, 'utf-8', (err, content) => {
             // 打开文件错误
             if (err) {
-                dialog.showErrorBox("打开文件错误", err.message);
+                dialog.showErrorBox("Error", err.message);
             } else {
                 // 更新界面
                 editWindow.openFile({

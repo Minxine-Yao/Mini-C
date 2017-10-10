@@ -14,7 +14,7 @@ var initMenu = require('../modules/initMenu.js').initMenu;
     module.exports.getFileInfo = getFileInfo;
 })();
 
-// 在文件资源管理器中选择后在编辑窗口打开文件
+// 在编辑窗口打开新文件
 function openFile(fileInfo) {
     // 将文件内容存储到sessionStorage中以供编辑器初始化
     sessionStorage.setItem("content", fileInfo.content);
