@@ -17,7 +17,7 @@ function openFile() {
         ]
     });
     if(filePaths === undefined) {
-        dialog.showErrorBox("打开文件错误")
+        dialog.showErrorBox("打开文件错误", "获取文件路径错误")
     } else {
         filePath = filePaths[0]; //暂时只实现打开一个文件的功能
         fs.readFile(filePath, 'utf-8', (err, content) => {

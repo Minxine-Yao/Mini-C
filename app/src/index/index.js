@@ -30,6 +30,7 @@ function openFile(fileInfo) {
     div.id = "nav-" + OFID;
     div.innerHTML = fileNameFromPath(fileInfo.path);
     div.onclick = (e) => {
+        console.log("Nav bar click event");
         // 点击导航栏切换页面
         document.getElementsByClassName("focus-page")[0].classList.remove("focus-page");
         document.getElementsByClassName("focus-nav-bar")[0].classList.remove("focus-nav-bar");
@@ -43,7 +44,6 @@ function openFile(fileInfo) {
     a.onclick = (e) => {
         // 点击导航栏标签关闭对应页面
         e.stopPropagation();
-        e.preventDefault();
         var navBar = e.target.parentNode;
         var ofid = parseInt(navBar.id.substr(4));
         var pageFrame = document.getElementById("page-"+ofid);
@@ -51,10 +51,10 @@ function openFile(fileInfo) {
         pageFrame.parentNode.removeChild(pageFrame);
         // 寻找最近打开的文件并focus
         for(let n=ofid; n>=0; n--) {
-            var pageFrame = document.getElementById("page" + ofid);
+            var pageFrame = document.getElementById("page-" + n);
             if(pageFrame) {
-                // 该ofid的文件未被关闭
-                var navBar = document.getElementById("nav" + ofid);
+                // ofid为n的文件未被关闭
+                var navBar = document.getElementById("nav-" + n);
                 pageFrame.classList.add("focus-page");
                 navBar.classList.add("focus-nav-bar");
             }

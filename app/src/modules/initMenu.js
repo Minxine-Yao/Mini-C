@@ -30,7 +30,7 @@ function initMenu(window) {
                 },
                 {
                     label: '打开文件',
-                    accelerator: 'CmdOrCtrl+N',
+                    accelerator: 'CmdOrCtrl+O',
                     click: file.openFile
                 },
                 {
