@@ -38,6 +38,11 @@ function initMenu(window) {
                     click: file.openFolder
                 },
                 {
+                    label: '保存文件',
+                    accelerator: 'CmdOrCtrl+S',
+                    click: file.saveFile
+                },
+                {
                     label: '设置',
                     click: file.setting
                 }

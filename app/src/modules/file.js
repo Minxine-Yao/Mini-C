@@ -17,38 +17,44 @@ function openFile() {
         ]
     });
     if(filePaths === undefined) {
-        dialog.showErrorBox("打开文件错误", err.message)
+        dialog.showErrorBox("打开文件错误")
     } else {
         filePath = filePaths[0]; //暂时只实现打开一个文件的功能
-        fs.readFile(filePath, 'utf-8', (err, fileData) => {
+        fs.readFile(filePath, 'utf-8', (err, content) => {
             // 打开文件错误
             if (err) {
-                dialog.showErrorBox("打开文件错误", err.message)
+                dialog.showErrorBox("打开文件错误", err.message);
             } else {
                 // 更新界面
-                var fileName = fileNameFromPath(filePath);
                 editWindow.openFile({
-                    "fileName": fileName,
-                    "fileData": fileData
+                    "path": filePath,
+                    "content": content
                 });
             }
         });
     }
 }
+// to-do：打开文件夹功能
 function openFolder() { }
-function setting() { }
 
-function fileNameFromPath(str) {
-    // 从文件路径中提取文件名
-    var arr = [];
-    if (str.indexOf('\\') !== -1)
-        arr = str.split('\\');
-    else
-        arr = str.split('\/');
-    return arr[arr.length - 1];
+// 保存文件
+function saveFile() {
+    // 获取
+    var fileInfo = editWindow.getFileInfo();
+    fs.writeFile(fileInfo.path, fileInfo.content, 'utf-8', (err) => {
+        if (err) {
+            dialog.showErrorBox("保存文件失败", err.message);
+        } else {
+            // to-do：提示用户文件保存成功
+            console.log("save file sucessfully!");
+        }
+    });
 }
+
+function setting() { }
 
 module.exports.createFile = createFile;
 module.exports.openFile = openFile;
 module.exports.openFolder = openFolder;
+module.exports.saveFile = saveFile;
 module.exports.setting = setting;
