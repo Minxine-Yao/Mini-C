@@ -95,11 +95,15 @@ function createFile() {
 
 }
 
-// 返回当前编辑页面的文档内容
+/** 
+ * 返回当前编辑页面的文档内容
+ *
+ * @to-do: 添加'\n'
+ */
 function getFileInfo() {
     var iframe = document.getElementsByClassName("focus-page")[0];
     var path = sessionStorage.getItem("OFID-" + iframe.id.substr(5));
-    var content = iframe.contentWindow.document.getElementsByTagName("textarea")[0].value;
+    var content = iframe.contentWindow.document.getElementsByClassName("code-input")[0].textContent;
     return {
         "path": path,
         "content": content
@@ -107,7 +111,6 @@ function getFileInfo() {
 }
 // 从文件路径中提取文件名
 function fileNameFromPath(str) {
-    // 从文件路径中提取文件名
     var arr = [];
     if (str.indexOf('\\') !== -1)
         arr = str.split('\\');
