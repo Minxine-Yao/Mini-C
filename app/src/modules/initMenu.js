@@ -82,16 +82,14 @@ function initMenu(window) {
             enabled: false,
             submenu: [
                 {
-                    label: 'Debug',
-                    accelerator: 'Shift+F5',
-                    enabled: false,
-                    click: run.debug
+                    label: 'Run Compiler',
+                    click: run.compile
                 },
                 {
-                    label: 'Run',
+                    label: 'Run Assembler',
                     accelerator: 'F5',
                     enabled: runEnable,
-                    click: run.run
+                    click: run.assemble
                 }
             ]
         },
