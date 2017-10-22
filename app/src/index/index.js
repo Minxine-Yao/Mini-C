@@ -98,14 +98,19 @@ function createFile() {
 /** 
  * 返回当前编辑页面的文档内容
  *
- * @to-do: 添加'\n'
  */
 function getFileInfo() {
+    // 提取代码区域文本
     var iframe = document.getElementsByClassName("focus-page")[0];
-    var path = sessionStorage.getItem("OFID-" + iframe.id.substr(5));
-    var content = iframe.contentWindow.document.getElementsByClassName("code-input")[0].textContent;
+    var codeInput = iframe.contentWindow.document.getElementsByClassName("code-input")[0];
+    var content = codeInput.firstChild.textContent + '\n';
+    var lines = codeInput.getElementsByTagName("div");
+    var n = 0;
+    while(lines.item(n) !== null) {
+        content += lines.item(n++).textContent + '\n';
+    }
     return {
-        "path": path,
+        "path": sessionStorage.getItem("OFID-" + iframe.id.substr(5)),
         "content": content
     };
 }
