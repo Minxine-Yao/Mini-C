@@ -1,14 +1,13 @@
 (()=>{
-    // 显示文件内容
     var fileData = sessionStorage.getItem("content");
     var editor = document.getElementsByClassName("editor")[0];
     var inputArea = editor.getElementsByClassName("code-input")[0];
-    inputArea.innerHTML = initHighlight(fileData); 
-
     // 添加观察器以实现行号动态添加和代码高亮
     inputArea.contentEditable = "true";
     var observer = new MutationObserver(onEditorMutate);
     observer.observe(inputArea, {childList: true});
+    // 显示文件内容
+    inputArea.innerHTML = initHighlight(fileData); 
 })()
 
 /**
