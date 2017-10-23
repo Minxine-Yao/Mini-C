@@ -87,7 +87,6 @@ function initMenu(window) {
                 },
                 {
                     label: 'Run Assembler',
-                    accelerator: 'F5',
                     enabled: runEnable,
                     click: run.assemble
                 }
