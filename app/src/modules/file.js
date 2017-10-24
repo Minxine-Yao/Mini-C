@@ -75,6 +75,10 @@ function reformatContent(content) {
     var lines = content.split('\n');
     var newFormatContent = lines[0];
     for(let n=1; n<lines.length; n++) {
+        if(lines[n] === ''){
+            newFormatContent += `<div><br></div>`;
+            continue;
+        }
         newFormatContent += `<div>${lines[n]}</div>`;
     }
     return newFormatContent;

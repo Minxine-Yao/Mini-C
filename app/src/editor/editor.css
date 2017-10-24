@@ -3,6 +3,7 @@
     height: calc(100% - 9px);
     background-color: #1f1f1f;
     color: white;
+    overflow: scroll;
 }
 .line-number{
     float: left;
