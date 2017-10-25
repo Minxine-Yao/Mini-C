@@ -1,0 +1,12 @@
+.operator {
+    color: #b7e2e8;
+}
+.string {
+    color: #0076ec !important;
+}
+.number{
+    color: #22cdff;
+}
+.keyword{
+    color: #63C793;
+}

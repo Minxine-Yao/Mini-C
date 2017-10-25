@@ -43,7 +43,7 @@ function assemble() {
     var asmFilePath = sessionStorage.getItem('asmFilePath');
     const {spawn} = require('child_process');
     // const res = spawn('ASMF', [asmFilePath]);
-    const res = spawn('src\\modules\\asmf', [asmFilePath]);
+    const res = spawn(process.cwd()+'\\src\\modules\\asmf', [asmFilePath]);
     // const res = spawn(process.cwd() + '\\src\\modules\\asmf', [asmFilePath]);
     const {dialog} = require('electron').remote;
     res.on('error', (error) => {
@@ -58,6 +58,7 @@ function assemble() {
     });
     res.stderr.on('data', (stderr) => {
         // errorCount = parseInt(stderr);
+        console.log(stderr);
         errorFilePath = asmFilePath.slice(0, -4) + '.asm_err';
         var fs = require('fs');
         fs.readFile(errorFilePath, 'utf-8', (err, content) => {

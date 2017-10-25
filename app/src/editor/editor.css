@@ -2,7 +2,8 @@
     width: 100%;
     height: calc(100% - 9px);
     background-color: #1f1f1f;
-    color: white;
+    color: #F3F2F1;
+    font-family: consolas, "Mircrosoft YaHei", sans-serif;
     overflow: scroll;
 }
 .line-number{

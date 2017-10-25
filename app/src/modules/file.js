@@ -67,24 +67,6 @@ function saveFile() {
 
 function setting() { }
 
-/**
- * 由于'\n'在contentEditable为true的元素中并不被解释为换行，故需要修改为用div元素包裹的形式
- * 
- * @param {any} content 
- */
-function reformatContent(content) {
-    var lines = content.split('\n');
-    var newFormatContent = lines[0];
-    for(let n=1; n<lines.length; n++) {
-        if(lines[n] === ''){
-            newFormatContent += `<div><br></div>`;
-            continue;
-        }
-        newFormatContent += `<div>${lines[n]}</div>`;
-    }
-    return newFormatContent;
-}
-
 module.exports.createFile = createFile;
 module.exports.openFile = openFile;
 module.exports.openFolder = openFolder;

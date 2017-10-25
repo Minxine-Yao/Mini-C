@@ -1,3 +1,6 @@
+const operators = [",","=","|=","^=","&=","<<=",">>=","+=","-=","*=","/=","%=","?",":","||","&&","|","^","&","==","!=",">","<",">=","<=","<<",">>","+","-","*","/","%","++","--","&","*","+","-","~","!","[]",".","->","++","--"];
+const keywords = ["cast","sizeof","call","const","string","nop","char","unsigned char", "short","unsigned short","int","float","double","unsigned","unsigned int","while","if","for"];
+
 (()=>{
     var fileData = sessionStorage.getItem("content");
     var editor = document.getElementsByClassName("editor")[0];
@@ -7,23 +10,23 @@
     var observer = new MutationObserver(onEditorMutate);
     observer.observe(inputArea, {childList: true});
     // 显示文件内容
-    // inputArea.innerHTML = initHighlight(fileData); 
     var lines = fileData.split('\n');
     var textNode = document.createTextNode(lines[0]);
     inputArea.appendChild(textNode);
     for(let n=1; n<lines.length; n++) {
         if(lines[n] === ''){
-            originInnerHTML = inputArea.innerHTML;
-            newInnerHTML = originInnerHTML + `<div><br></div>`;
-            inputArea.innerHTML = newInnerHTML;
+
+            var div = document.createElement('div');
+            inputArea.appendChild(div);
+            var br = document.createElement('br');
+            div.appendChild(br);
             continue;
         }
-        var textNode = document.createTextNode(lines[n]);
         var div = document.createElement('div');
-        div.appendChild(textNode);
         inputArea.appendChild(div);
+        var textNode = document.createTextNode(lines[n]);
+        div.appendChild(textNode);
     }
-    return newFormatContent;
 })()
 
 /**
@@ -31,7 +34,9 @@
  * 
  * @param {string} content 
  */
-function highlight(content) {}
+function highlight(element) {
+    var content = element.textContent;
+}
 
 /**
  * 对多行内容做词法分析进行标记以呈现出高亮样式
@@ -90,4 +95,9 @@ function onEditorMutate(mutations, observer) {
  * @param {Array of MutationRecord} mutations 
  * @param {MutationObserver} observer 
  */
-function onSingleLineChange(mutations, observer) {}
+function onSingleLineChange(mutations, observer) {
+    mutations.forEach((mutation) => {
+        target = mutation.target;
+        highlight(target);
+    });
+}
