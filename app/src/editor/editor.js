@@ -7,7 +7,23 @@
     var observer = new MutationObserver(onEditorMutate);
     observer.observe(inputArea, {childList: true});
     // 显示文件内容
-    inputArea.innerHTML = initHighlight(fileData); 
+    // inputArea.innerHTML = initHighlight(fileData); 
+    var lines = fileData.split('\n');
+    var textNode = document.createTextNode(lines[0]);
+    inputArea.appendChild(textNode);
+    for(let n=1; n<lines.length; n++) {
+        if(lines[n] === ''){
+            originInnerHTML = inputArea.innerHTML;
+            newInnerHTML = originInnerHTML + `<div><br></div>`;
+            inputArea.innerHTML = newInnerHTML;
+            continue;
+        }
+        var textNode = document.createTextNode(lines[n]);
+        var div = document.createElement('div');
+        div.appendChild(textNode);
+        inputArea.appendChild(div);
+    }
+    return newFormatContent;
 })()
 
 /**

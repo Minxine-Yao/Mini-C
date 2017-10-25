@@ -41,7 +41,8 @@ function openFile() {
                 // 更新界面
                 editWindow.openFile({
                     "path": filePath,
-                    "content": reformatContent(content)
+                    // "content": reformatContent(content)
+                    "content": content
                 });
             }
         });
