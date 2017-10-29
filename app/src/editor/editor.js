@@ -84,23 +84,25 @@ function bindEditorKeymaps(editor) {
         },
         "Ctrl-G": (cm) => {
             // 跳转到行
-            // var input = document.createElement("input");
-            // input.type = "number";
-            // input.className = "temp-input";
-            // document.body.appendChild(input);
-            // input.focus();
-            // input.onkeydown = (evt) => {
-            //     if(evt.code === "Enter" || evt.code === "NumpadEnter") {
-            //         // Get the line number inputted
-            //         var input = document.getElementsByClassName("temp-input")[0];
-            //         var lineNumber = parseInt(input.value);
-            //         // Remove input element
-            //         input.parentNode.removeChild(input);
-            //         // Focus on the editor and go to line start
-            //         document.editor.focus();
-            //         document.editor.setCursor({line: lineNumber - 1, ch: 0});
-            //     }
-            // }
+            var input = document.createElement("input");
+            input.type = "number";
+            input.className = "temp-input";
+            input.placeholder = "Input the line you want to jump to...";
+            document.body.appendChild(input);
+            input.focus();
+            input.onkeydown = (evt) => {
+                if(evt.code === "Enter" || evt.code === "NumpadEnter") {
+                    evt.preventDefault();
+                    // Get the line number inputted
+                    var input = document.getElementsByClassName("temp-input")[0];
+                    var lineNumber = parseInt(input.value);
+                    // Remove input element
+                    input.parentNode.removeChild(input);
+                    // Focus on the editor and jump to line
+                    document.editor.focus();
+                    document.editor.setCursor({line: lineNumber - 1, ch: document.editor.getLine(lineNumber - 1).length});
+                }
+            }
         },
         "Shift-Ctrl-P": (cm) => {
             // 更换主题
