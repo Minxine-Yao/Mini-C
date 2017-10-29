@@ -5,6 +5,7 @@ start: mfc0 $t5,$12,0
   mtc0  $t5,$12,0
   lw $t4,0xfc70($0)
   sw $t4,0xfc60($0)
+  addi $gp,$0,0
   mfc0 $t5,$12,0
   ori $t5,$t5,1
   mtc0  $t5,$12,0

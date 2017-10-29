@@ -1,5 +1,5 @@
 .DATA
-.TEXT 0x1118            
+.TEXT 0x1118
 start: addi  $t0,$a0,0
   addi  $t1,$a0,0
   srl $t1,$t1,16

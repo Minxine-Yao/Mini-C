@@ -1,6 +1,6 @@
 .DATA
 .TEXT 0x0000
-start: nop 
+start: nop
   addi  $30,$0,0xbffc
   sll   $30,$30,16
   srl   $30,$30,16
@@ -25,6 +25,7 @@ chkram: addi  $s0,$0,0xe1
   sw  $t7,0($t0)
   beq $t0,$t1,chkkey
   addi  $t0,$t0,4
+  sw  $t0,0xfc50($0)
   j   chkram
 chkkey: sw $t8,0xfc60($0)
   sll $t8,$t8,1
@@ -44,13 +45,15 @@ disp: addi $t2,$0,0xffff
   sw  $t0,0xfc02($0)
   sw  $s1,0xfc04($0)
 lop: addi  $t2,$t2,-1
+  sw  $t0,0xfc50($0)
   bne $t2,$0,lop
   sw $t8,0xfc60($0)
   sll $t8,$t8,1
   addi  $t0,$t0,0x1111
   addi  $t5,$t5,1
   bne $t5,$t1,disp
-  sw  $0,0xfc60($0)
+  lw  $t1,0xfc70($0)
+  sw  $t1,0xfc60($0)
   sw  $0,0xfc00($0)
   sw  $0,0xfc02($0)
   sw  $0,0xfc04($0)
@@ -59,4 +62,5 @@ error: sw  $s0,0xfc00($0)
   sw  $s1,0xfc04($0)
   addi  $t5,$0,0xffff
   sw $t5,0xfc60($0)
-loop: j loop
+loop: sw  $t0,0xfc50($0)
+  j loop
