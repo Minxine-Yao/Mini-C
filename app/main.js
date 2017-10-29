@@ -23,9 +23,18 @@ function createWindow() {
     win.on('closed', () => {
         win = null;
     })
+    
+    const {globalShortcut} = require('electron');
+    globalShortcut.register('F11', () => {
+        // 全屏模式
+        win.setFullScreen(!win.isFullScreen());
+        win.setMenuBarVisibility(!win.isMenuBarVisible());
+    });
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+    createWindow();
+});
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
