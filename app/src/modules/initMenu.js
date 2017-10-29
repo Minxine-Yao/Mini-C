@@ -35,7 +35,8 @@ function initMenu(window) {
                 },
                 {
                     label: '打开文件夹',
-                    click: file.openFolder
+                    click: file.openFolder,
+                    enabled: false
                 },
                 {
                     label: '保存文件',
@@ -44,36 +45,8 @@ function initMenu(window) {
                 },
                 {
                     label: '设置',
-                    click: file.setting
-                }
-            ]
-        },
-        {
-            label: '编辑',
-            submenu: [
-                {
-                    label: '注释选中行',
-                    accelerator: 'CmdOrCtrl+/',
-                    enabled: editEnable,
-                    click: edit.commentLineSelected
-                },
-                {
-                    label: '跳转到行',
-                    accelerator: 'CmdOrCtrl+G',
-                    enabled: editEnable,
-                    click: edit.goToLine
-                },
-                {
-                    label: '在行前插入',
-                    accelerator: 'Shift+CmdOrCtrl+Enter',
-                    enabled: editEnable,
-                    click: edit.insertBeforeLine
-                },
-                {
-                    label: '在行后插入',
-                    accelerator: 'CmdOrCtrl+Enter',
-                    enabled: editEnable,
-                    click: edit.insertAfterLine
+                    click: file.setting,
+                    enabled: false
                 }
             ]
         },
