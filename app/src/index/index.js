@@ -73,6 +73,7 @@ function openFile(fileInfo) {
     iframe.src = "../editor/editor.html";
     iframe.frameBorder = 0;
     iframe.id = "page-" + OFID++;
+    iframe.nodeIntegration = "true";
 
     // 将创建的元素添加到页面中
     pageContainer.appendChild(iframe);
@@ -102,13 +103,7 @@ function createFile() {
 function getFileInfo() {
     // 提取代码区域文本
     var iframe = document.getElementsByClassName("focus-page")[0];
-    var codeInput = iframe.contentWindow.document.getElementsByClassName("code-input")[0];
-    var content = codeInput.firstChild.textContent + '\n';
-    var lines = codeInput.getElementsByTagName("div");
-    var n = 0;
-    while(lines.item(n) !== null) {
-        content += lines.item(n++).textContent + '\n';
-    }
+    var content = iframe.contentWindow.document.editor.getValue();
     return {
         "path": sessionStorage.getItem("OFID-" + iframe.id.substr(5)),
         "content": content

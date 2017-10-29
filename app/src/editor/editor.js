@@ -1,103 +1,146 @@
-const operators = [",","=","|=","^=","&=","<<=",">>=","+=","-=","*=","/=","%=","?",":","||","&&","|","^","&","==","!=",">","<",">=","<=","<<",">>","+","-","*","/","%","++","--","&","*","+","-","~","!","[]",".","->","++","--"];
-const keywords = ["cast","sizeof","call","const","string","nop","char","unsigned char", "short","unsigned short","int","float","double","unsigned","unsigned int","while","if","for"];
-
 (()=>{
+    // 初始化CodeMirror
     var fileData = sessionStorage.getItem("content");
-    var editor = document.getElementsByClassName("editor")[0];
-    var inputArea = editor.getElementsByClassName("code-input")[0];
-    // 添加观察器以实现行号动态添加和代码高亮
-    inputArea.contentEditable = "true";
-    var observer = new MutationObserver(onEditorMutate);
-    observer.observe(inputArea, {childList: true});
-    // 显示文件内容
-    var lines = fileData.split('\n');
-    var textNode = document.createTextNode(lines[0]);
-    inputArea.appendChild(textNode);
-    for(let n=1; n<lines.length; n++) {
-        if(lines[n] === ''){
+    var textarea = document.getElementsByClassName("editor")[0];
+    var editor = CodeMirror.fromTextArea(textarea,{
+        value: fileData,
+        mode: "text/x-csrc",
+        theme: "material",
+        lineNumbers: true
+    });
+    editor.setValue(fileData);
+    document.editor = editor;
 
-            var div = document.createElement('div');
-            inputArea.appendChild(div);
-            var br = document.createElement('br');
-            div.appendChild(br);
-            continue;
-        }
-        var div = document.createElement('div');
-        inputArea.appendChild(div);
-        var textNode = document.createTextNode(lines[n]);
-        div.appendChild(textNode);
-    }
+    // 绑定编辑的快捷键
+    bindEditorKeymaps(editor)
 })()
 
-/**
- * 对单行内容做词法分析进行标记以呈现出高亮样式
- * 
- * @param {string} content 
- */
-function highlight(element) {
-    var content = element.textContent;
-}
-
-/**
- * 对多行内容做词法分析进行标记以呈现出高亮样式
- * 
- * @param {string} fileData 
- */
-function initHighlight(fileData) {
-    return fileData;
-}
-
-/**
- * 在编辑器有新行加入或者删除的时候进行处理
- * 
- * @param {Array of MutationRecord} mutations 
- * @param {MutationObserver} observer 
- */
-function onEditorMutate(mutations, observer) {
-    mutations.forEach((mutation) => {
-        if(mutation.type !== "childList") {
-            return;
-        }
-        var newLines = mutation.addedNodes;
-        var lineNumberBox = document.getElementsByClassName("line-number")[0];
-        var lineNumbers = lineNumberBox.getElementsByTagName('span');
-        // 为每个新行添加行号和用于代码高亮的Observer
-        newLines.forEach((lineDiv) => {
-            // 添加的是文本节点则退出
-            console.log(lineDiv.nodeType);
-            if(lineDiv.nodeType === Node.TEXT_NODE) {
+function bindEditorKeymaps(editor) {
+    editor.setOption("extraKeys", {
+        "Shift-Ctrl-K": (cm) => {
+            // 删除当前行
+            cm.execCommand("deleteLine");
+        },
+        "Ctrl-Enter": (cm) => {
+            // 在当前行和下一行之间插入新行并编辑
+            cm.execCommand("goLineEnd");
+            cm.execCommand("newlineAndIndent");
+        },
+        "Shift-Ctrl-Enter": (cm) => {
+            // 在当前行和上一行之间插入新行并编辑
+            cm.execCommand("goLineUp");
+            cm.execCommand("goLineEnd");
+            cm.execCommand("newlineAndIndent");
+        },
+        "Shift-Ctrl-Up": (cm) => {
+            // 将当前行和上一行交换位置
+            var pos = editor.getCursor()
+            if(pos['line'] - 1 <= 0) {
                 return;
             }
-            // 添加新行号
-            var lineNumber = parseInt(lineNumbers[lineNumbers.length - 1].innerHTML) + 1;
-            var span = document.createElement("span");
-            span.innerHTML = lineNumber;
-            lineNumberBox.appendChild(span);
-            // 添加Observer
-            var observer = new MutationObserver(onSingleLineChange);
-            observer.observe(lineDiv, {
-                characterData: true,
-                subtree: true
-            });
-        });
-        // 删除对应行号
-        var removedLines = mutation.removedNodes;
-        removedLines.forEach((lineDiv) => {
-            if(lineNumbers.length > 1) {
-                lineNumberBox.removeChild(lineNumberBox.lastChild);
+            // 交换两行的内容
+            var content_cur = editor.getLine(pos['line']);
+            var content_las = editor.getLine(pos['line'] - 1);
+            editor.setSelection({line: pos['line'], ch: 0},{line: pos['line'], ch: content_cur.length});
+            editor.replaceSelection(content_las);
+            editor.setSelection({line: pos['line']-1, ch: 0},{line: pos['line']-1, ch: content_cur.length});
+            editor.replaceSelection(content_cur);
+            // 重新设置Cursor的位置
+            editor.setCursor({line: pos['line']-1, ch:pos['ch']});
+        },
+        "Shift-Ctrl-Down": (cm) => {
+            // 将当前行和下一行交换位置
+            var pos = editor.getCursor()
+            if(pos['line'] - 1 <= 0) {
+                return;
             }
-        });
-    })
-}
-/**
- * 在单行文本有改变时进行处理
- * 
- * @param {Array of MutationRecord} mutations 
- * @param {MutationObserver} observer 
- */
-function onSingleLineChange(mutations, observer) {
-    mutations.forEach((mutation) => {
-        target = mutation.target;
-        highlight(target);
+            // 交换两行的内容
+            var content_cur = editor.getLine(pos['line']);
+            var content_las = editor.getLine(pos['line'] + 1);
+            editor.setSelection({line: pos['line'], ch: 0},{line: pos['line'], ch: content_cur.length});
+            editor.replaceSelection(content_las);
+            editor.setSelection({line: pos['line']+1, ch: 0},{line: pos['line']+1, ch: content_cur.length});
+            editor.replaceSelection(content_cur);
+            // 重新设置Cursor的位置
+            editor.setCursor({line: pos['line']+1, ch:pos['ch']});
+        },
+        "Ctrl-Up": (cm) => {
+            // 增大字号
+            var lines = document.querySelectorAll(".CodeMirror");
+            lines.forEach((line) => {
+                var originSize = parseInt(line.style.fontSize);
+                var originSize = isNaN(originSize) ? 17 : parseInt(originSize);
+                line.style.fontSize = (originSize+1) + "px";
+            });
+        },
+        "Ctrl-Down": (cm) => {
+            // 减小字号
+            var lines = document.querySelectorAll(".CodeMirror");
+            lines.forEach((line) => {
+                var originSize = parseInt(line.style.fontSize);
+                var originSize = isNaN(originSize) ? 17 : parseInt(originSize);
+                line.style.fontSize = (originSize-1) + "px";
+            });
+        },
+        "Ctrl-G": (cm) => {
+            // 跳转到行
+            // var input = document.createElement("input");
+            // input.type = "number";
+            // input.className = "temp-input";
+            // document.body.appendChild(input);
+            // input.focus();
+            // input.onkeydown = (evt) => {
+            //     if(evt.code === "Enter" || evt.code === "NumpadEnter") {
+            //         // Get the line number inputted
+            //         var input = document.getElementsByClassName("temp-input")[0];
+            //         var lineNumber = parseInt(input.value);
+            //         // Remove input element
+            //         input.parentNode.removeChild(input);
+            //         // Focus on the editor and go to line start
+            //         document.editor.focus();
+            //         document.editor.setCursor({line: lineNumber - 1, ch: 0});
+            //     }
+            // }
+        },
+        "Shift-Ctrl-P": (cm) => {
+            // 更换主题
+            var input = document.createElement("input");
+            input.type = "text";
+            input.className = "temp-input";
+            input.placeholder = "seti,dracula,eclipse,material,midnight,solarized,tomorrow-night-bright..."
+            document.body.appendChild(input);
+            input.focus();
+            (() => {
+                var codemirror = cm;
+                input.onkeydown = (evt) => {
+                    if(evt.code === "Enter" || evt.code === "NumpadEnter") {
+                        // 获取主题名
+                        var input = document.getElementsByClassName("temp-input")[0];
+                        var themeName = input.value;
+                        input.parentNode.removeChild(input);
+                        // 判断是否已经引入该主题文件
+                        var imported = false;
+                        var src = `../codemirror/theme/${themeName}.css`;
+                        var links = document.getElementsByTagName("link");
+                        for(let n=0; n<links.lenth; n++) {
+                            if(links[0].src === src) {
+                                imported = true;
+                                break;
+                            }
+                        }
+                        // 未引入主题文件则引入
+                        if(!imported) {
+                            var link = document.createElement("link");
+                            link.rel = "stylesheet";
+                            link.href = src;
+                            document.getElementsByTagName("head")[0].appendChild(link);
+                        }
+                        // 设置编辑器主题
+                        codemirror.setOption("theme", themeName);
+                        document.editor.focus();
+                    }
+                }
+            })()
+        }
     });
 }
