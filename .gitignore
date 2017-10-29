@@ -1,7 +1,10 @@
-﻿IDE的设计.docx
-app/src/editor/mutation_test.html
+﻿app/src/editor/mutation_test.html
 app/src/assembler
 app/src/compiler
 app/obj.txt
 app/src/modules/obj.txt
-hello.c
+app/h.c
+app/h.asm
+*.coe
+*.docx
+*.doc
