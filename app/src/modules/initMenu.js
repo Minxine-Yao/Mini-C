@@ -60,7 +60,7 @@ function initMenu(window) {
                 },
                 {
                     label: 'Run Assembler',
-                    enabled: runEnable,
+                    // enabled: runEnable,
                     click: run.assemble
                 }
             ]

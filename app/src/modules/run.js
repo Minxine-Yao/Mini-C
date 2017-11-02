@@ -12,7 +12,7 @@ function compile(){
         const {dialog} = require('electron').remote;
         if (stdout === "Compile successfully"){  // 编译无错误
             // 解禁汇编功能
-            require('electron').remote.Menu.getApplicationMenu().items[2].submenu.items[1].enabled = true
+            // require('electron').remote.Menu.getApplicationMenu().items[2].submenu.items[1].enabled = true
             var asmFilePath = currentFileInfo.path.slice(0, -2) + '.asm';
             console.log(asmFilePath);
             sessionStorage.setItem('asmFilePath', asmFilePath);
