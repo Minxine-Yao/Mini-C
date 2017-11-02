@@ -22,3 +22,4 @@ A simple IDE for a subset of C.
 | `Ctrl`+`Down`          | Make the font size smaller  |
 | `Ctrl`+`G`             | Jump to another line        |
 | `Ctrl`+`Shift`+`P`     | Change to another theme     |
+| `F11`                  | Full-screen mode            |
