@@ -35,7 +35,7 @@ function bindEditorKeymaps(editor) {
         "Shift-Ctrl-Up": (cm) => {
             // 将当前行和上一行交换位置
             var pos = editor.getCursor()
-            if(pos['line'] <= 0) {
+            if(pos['line'] === editor.firstLine()) { // 当前行已为第一行
                 return;
             }
             // 交换两行的内容
@@ -43,7 +43,7 @@ function bindEditorKeymaps(editor) {
             var content_las = editor.getLine(pos['line'] - 1);
             editor.setSelection({line: pos['line'], ch: 0},{line: pos['line'], ch: content_cur.length});
             editor.replaceSelection(content_las);
-            editor.setSelection({line: pos['line']-1, ch: 0},{line: pos['line']-1, ch: content_cur.length});
+            editor.setSelection({line: pos['line']-1, ch: 0},{line: pos['line']-1, ch: content_las.length});
             editor.replaceSelection(content_cur);
             // 重新设置Cursor的位置
             editor.setCursor({line: pos['line']-1, ch:pos['ch']});
@@ -51,15 +51,15 @@ function bindEditorKeymaps(editor) {
         "Shift-Ctrl-Down": (cm) => {
             // 将当前行和下一行交换位置
             var pos = editor.getCursor()
-            if(pos['line'] <= 0) {
+            if(pos['line'] === editor.lastLine()) { // 当前行已为最后一行
                 return;
             }
             // 交换两行的内容
             var content_cur = editor.getLine(pos['line']);
-            var content_las = editor.getLine(pos['line'] + 1);
+            var content_nxt = editor.getLine(pos['line'] + 1);
             editor.setSelection({line: pos['line'], ch: 0},{line: pos['line'], ch: content_cur.length});
-            editor.replaceSelection(content_las);
-            editor.setSelection({line: pos['line']+1, ch: 0},{line: pos['line']+1, ch: content_cur.length});
+            editor.replaceSelection(content_nxt);
+            editor.setSelection({line: pos['line']+1, ch: 0},{line: pos['line']+1, ch: content_nxt.length});
             editor.replaceSelection(content_cur);
             // 重新设置Cursor的位置
             editor.setCursor({line: pos['line']+1, ch:pos['ch']});
