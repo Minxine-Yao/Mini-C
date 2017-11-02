@@ -35,7 +35,7 @@ function bindEditorKeymaps(editor) {
         "Shift-Ctrl-Up": (cm) => {
             // 将当前行和上一行交换位置
             var pos = editor.getCursor()
-            if(pos['line'] - 1 <= 0) {
+            if(pos['line'] <= 0) {
                 return;
             }
             // 交换两行的内容
@@ -51,7 +51,7 @@ function bindEditorKeymaps(editor) {
         "Shift-Ctrl-Down": (cm) => {
             // 将当前行和下一行交换位置
             var pos = editor.getCursor()
-            if(pos['line'] - 1 <= 0) {
+            if(pos['line'] <= 0) {
                 return;
             }
             // 交换两行的内容
@@ -116,6 +116,7 @@ function bindEditorKeymaps(editor) {
                 var codemirror = cm;
                 input.onkeydown = (evt) => {
                     if(evt.code === "Enter" || evt.code === "NumpadEnter") {
+                        evt.preventDefault();
                         // 获取主题名
                         var input = document.getElementsByClassName("temp-input")[0];
                         var themeName = input.value;

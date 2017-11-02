@@ -53,7 +53,13 @@ function assemble() {
         // 汇编无错误
         dialog.showMessageBox({
             title: `汇编成功`,
-            message: `coe文件路径：${asmFilePath.slice(0, -4)}.coe`
+            message: `coe文件路径：`+
+                     `${asmFilePath.slice(0, -4)}.coe\n`+
+                     `${process.cwd()}\\src\\modules\\Folder\\ram0.coe\n`+
+                     `${process.cwd()}\\src\\modules\\Folder\\ram1.coe\n`+
+                     `${process.cwd()}\\src\\modules\\Folder\\ram2.coe\n`+
+                     `${process.cwd()}\\src\\modules\\Folder\\ram3.coe\n`+
+                     `${process.cwd()}\\src\\modules\\Folder\\test.coe`
         });
     });
     res.stderr.on('data', (stderr) => {
