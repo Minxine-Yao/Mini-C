@@ -1,10 +1,10 @@
 # Mini-C
 A simple IDE for a subset of C.
 
-## How to Use
+## Usage
 
-1. The editor is based on [Electron](https://github.com/electron/electron), so you need install it firstly.
-2. Make sure the current work directory is "Mini-C/app", then execute command `electron .`
+1. Unzip the file `Mini-C-Release.rar`.
+2. Run `Mini-C-Release\Mini-C-Release\Mini-C.exe`.
 
 ##  Keyboard Shortcuts
 
@@ -23,3 +23,8 @@ A simple IDE for a subset of C.
 | `Ctrl`+`G`             | Jump to another line        |
 | `Ctrl`+`Shift`+`P`     | Change to another theme     |
 | `F11`                  | Full-screen mode            |
+
+## To do
+
+* Add Linux/macOS support.
+* Project management.
